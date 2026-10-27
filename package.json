@@ -1,0 +1,38 @@
+{
+  "name": "@doriedroc/ticketcine-contracts",
+  "version": "1.0.0",
+  "description": "Protobuf definitions and generated TypeScript types",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "protoc -I ./proto ./proto/*.proto --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./gen --ts_proto_opt=nestJs=true,package=omit"
+  },
+  "files": [
+    "proto",
+    "gen"
+  ],
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.15.0",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.15.0",
+  "type": "module",
+  "devDependencies": {
+    "semantic-release": "^25.0.9",
+    "ts-proto": "^2.18.3"
+  },
+  "dependencies": {
+    "@nestjs/microservices": "^12.2.0",
+    "rxjs": "^7.8.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doriedroc/ticketcine-contracts.git"
+  }
+}
