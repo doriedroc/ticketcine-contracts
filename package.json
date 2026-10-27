@@ -1,38 +1,51 @@
 {
   "name": "@doriedroc/ticketcine-contracts",
   "version": "1.0.0",
-  "description": "Protobuf definitions and generated TypeScript types",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "protoc -I ./proto ./proto/*.proto --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./gen --ts_proto_opt=nestJs=true,package=omit"
-  },
-  "files": [
-    "proto",
-    "gen"
-  ],
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "12.15.0",
-      "onFail": "download"
-    }
-  },
-  "packageManager": "pnpm@12.15.0",
-  "type": "module",
-  "devDependencies": {
-    "semantic-release": "^25.0.9",
-    "ts-proto": "^2.18.3"
-  },
-  "dependencies": {
-    "@nestjs/microservices": "^12.2.0",
-    "rxjs": "^7.8.2"
-  },
+  "description": "Contratos gRPC (protobuf) e tipos TS gerados do TicketCine",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
+  "keywords": [],
+  "author": {
+    "name": "Danilo Cordeiro",
+    "email": "dev.danilocordeiro@gmail.com"
+  },
+  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/doriedroc/ticketcine-contracts.git"
+  },
+  "scripts": {
+    "generate": "protoc -I ./proto ./proto/*.proto --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./gen --ts_proto_opt=nestJs=true,package=omit"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/github",
+        {
+          "failComment": false
+        }
+      ]
+    ]
+  },
+  "type": "module",
+  "files": [
+    "gen",
+    "proto"
+  ],
+  "exports": {
+    "./*": "./gen/*.ts",
+    "./proto/*": "./proto/*"
+  },
+  "devDependencies": {
+    "semantic-release": "^25.0.9",
+    "ts-proto": "^2.18.3"
   }
 }
