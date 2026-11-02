@@ -2,6 +2,8 @@
   "name": "@doriedroc/ticketcine-contracts",
   "version": "1.0.0",
   "description": "Contratos gRPC (protobuf) e tipos TS gerados do TicketCine",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "publishConfig": {
     "access": "public",
     "provenance": true
@@ -17,6 +19,7 @@
     "url": "git+https://github.com/doriedroc/ticketcine-contracts.git"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
     "generate": "protoc -I ./proto ./proto/*.proto --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./gen --ts_proto_opt=nestJs=true,package=omit,stringEnums=true"
   },
   "release": {
@@ -35,17 +38,23 @@
       ]
     ]
   },
-  "type": "module",
   "files": [
+    "dist",
     "gen",
     "proto"
   ],
   "exports": {
-    "./*": "./gen/*.ts",
-    "./proto/*": "./proto/*"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./proto/*": "./proto/*",
+    "./*": "./gen/*.ts"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
     "semantic-release": "^25.0.9",
-    "ts-proto": "^2.18.3"
+    "ts-proto": "^2.18.3",
+    "typescript": "^7.0.2"
   }
 }

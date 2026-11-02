@@ -33,6 +33,9 @@ jobs:
       - name: Generate TS Protobuf
         run: yarn generate
 
+      - name: Build
+        run: yarn build
+
       - name: Release
         run: yarn semantic-release
         env:
