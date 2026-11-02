@@ -4,33 +4,31 @@ package auth.v1;
 
 service AuthService {
   rpc SendOtp(SendOtpRequest) returns (SendOtpResponse);
+  rpc VerifyOtp(VerifyOtpRequest) returns (VerifyOtpResponse);
+}
+
+enum IdentifierType {
+  IDENTIFIER_TYPE_UNSPECIFIED = 0;
+  IDENTIFIER_TYPE_PHONE = 1;
+  IDENTIFIER_TYPE_EMAIL = 2;
 }
 
 message SendOtpRequest {
   string identifier = 1;
-  string type = 2;
+  IdentifierType type = 2;
 }
 
 message SendOtpResponse {
-    bool ok = 1;
+  bool ok = 1;
 }
 
-// message UserProfile {
-//   string id = 1;
-//   int32 age = 2;
-//   double rating = 3; 
-//   bool verified = 4;
-//   repeated string roles = 5;
-//   map<string, string> meta = 6;
-//   Status status = 7;
-//   oneof contact {
-//     string phone = 8;
-//     string email = 9;
-//   }
-// }
+message VerifyOtpRequest {
+  string identifier = 1;
+  IdentifierType type = 2;
+  string code = 3;
+}
 
-// enum Status {
-//   STATUS_UNKNOWN = 0;
-//   STATUS_ACTIVE = 1;
-//   STATUS_BANNED = 2;
-// }
+message VerifyOtpResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}

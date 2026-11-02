@@ -12,28 +12,50 @@ export const protobufPackage = "auth.v1";
 
 export const protobufFileName = "auth.proto";
 
+export enum IdentifierType {
+  IDENTIFIER_TYPE_UNSPECIFIED = "IDENTIFIER_TYPE_UNSPECIFIED",
+  IDENTIFIER_TYPE_PHONE = "IDENTIFIER_TYPE_PHONE",
+  IDENTIFIER_TYPE_EMAIL = "IDENTIFIER_TYPE_EMAIL",
+  UNRECOGNIZED = "UNRECOGNIZED",
+}
+
 export interface SendOtpRequest {
   identifier: string;
-  type: string;
+  type: IdentifierType;
 }
 
 export interface SendOtpResponse {
   ok: boolean;
 }
 
+export interface VerifyOtpRequest {
+  identifier: string;
+  type: IdentifierType;
+  code: string;
+}
+
+export interface VerifyOtpResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export const AUTH_V1_PACKAGE_NAME = "auth.v1";
 
 export interface AuthServiceClient {
   sendOtp(request: SendOtpRequest): Observable<SendOtpResponse>;
+
+  verifyOtp(request: VerifyOtpRequest): Observable<VerifyOtpResponse>;
 }
 
 export interface AuthServiceController {
   sendOtp(request: SendOtpRequest): Promise<SendOtpResponse> | Observable<SendOtpResponse> | SendOtpResponse;
+
+  verifyOtp(request: VerifyOtpRequest): Promise<VerifyOtpResponse> | Observable<VerifyOtpResponse> | VerifyOtpResponse;
 }
 
 export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["sendOtp"];
+    const grpcMethods: string[] = ["sendOtp", "verifyOtp"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("AuthService", method)(constructor.prototype[method], method, descriptor);
